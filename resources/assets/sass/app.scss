@@ -1,0 +1,31 @@
+// Bootstrap
+@import "node_modules/bootstrap/scss/bootstrap";
+
+.Players {
+    margin: 2em 0;
+}
+
+.Player_1 .wins a {
+    color: #0275d8;
+}
+.Player_2 .wins a {
+    color: #d9534f;
+}
+
+.LastResults_Heading {
+    text-align: center;
+    transition: opacity .5s linear;
+    margin-bottom: 1em;
+}
+
+body > footer {
+    padding: 4rem 0;
+    margin-top: 4rem;
+    font-size: 85%;
+    background-color: #f7f7f7;
+
+    a {
+        font-weight: 500;
+        color: #55595c;
+    }
+}
