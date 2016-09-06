@@ -43,6 +43,9 @@ window.App = {
     csrfToken: '{{ csrf_token() }}'
 };
 </script>
+@if ($gaID = env('GOOGLE_ANALYTICS_ID'))
+    @include('partials.script-analytics', ['gaID' => $gaID])
+@endif
 @yield('scripts')
 <script src="/js/app.js"></script>
 </body>
