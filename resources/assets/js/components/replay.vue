@@ -5,7 +5,7 @@
             <small class="pull-right">Click the progress bar to {{ pause ? 'resume' : 'pause' }}.</small>
         </h4>
 
-        <progress class="Round__progress progress" value="{{ playing.number }}" max="{{ total }}" @click="playPause()"></progress>
+        <progress class="Round__progress progress" value="{{ current }}" max="{{ total }}" @click="playPause()"></progress>
 
         <div class="Round row" v-for="round in played | tail 6" :class='{ War: round.length > 2 }'>
             <div class="Round__number">{{ round.number }}</div>
@@ -19,7 +19,7 @@
         </div>
 
         <progress class="Round__progress progress"
-            value="{{ playing.number }}" max="{{ total }}"
+            value="{{ current }}" max="{{ total }}"
             v-show="played.length > 6"
             @click="playPause()"></progress>
 
@@ -38,30 +38,39 @@ import Card from './card.vue';
 
         data: function () {
             return {
-                total: '',
                 timer: {},
-                playing: { number: 0 },
-                played: [],
+                current: 0,
                 pause: false
+            }
+        },
+
+        computed: {
+            played() {
+                return this.rounds.slice(0, this.current + 1);
+            },
+            total() {
+                return this.rounds.length;
             }
         },
 
         methods: {
             queueRound() {
-                if (this.rounds.length && ! this.pause) {
+                if (this.current <= this.total && ! this.pause) {
                     this.playRound();
+                    this.current++; // advance pointer
                 }
             },
             playRound() {
-                this.timer = setTimeout(() => {
-                    let round = this.rounds.shift();
-                    round.number = this.played.length + 1;
-                    this.playing = round;
-                    this.played.push(round);
-                    this.queueRound();
-                }, 250);
+                this.timer = setTimeout(() => this.queueRound(), 250);
             },
             playPause() {
+                if (this.current >= this.total) {
+                    this.current = 0; // replay!
+                    this.pause = false;
+                    this.queueRound();
+                    return;
+                }
+
                 this.pause = ! this.pause;
                 if (! this.pause) {
                     this.queueRound(); // resume!
@@ -70,7 +79,10 @@ import Card from './card.vue';
         },
 
         ready() {
-            this.total = this.rounds.length;
+            _.each(this.rounds, (round, index) => {
+                round.number = index + 1;
+                return round;
+            });
             this.queueRound();
         },
 
