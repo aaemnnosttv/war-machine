@@ -1,5 +1,5 @@
 <template>
-    <div class="WarCard WarCard--{{ suit }} WarCard--{{ color }}">
+    <div class="WarCard WarCard--{{ suit }} WarCard--{{ color }} WarCard--{{ face }}">
         <div class="WarCard__symbol">{{{ symbol }}}</div>
         <div class="WarCard__face" v-if="face != 'A'">{{ face }}</div>
     </div>
