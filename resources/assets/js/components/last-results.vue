@@ -3,7 +3,8 @@
         <h3 class="LastResults_Heading"
             style="opacity: 0;"
             :style="{ opacity: results ? 1 : 0 }"
-            >{{ results.winner }} won after {{ results.rounds }} rounds.
+        >
+            {{ results.winner }} won after {{ results.rounds }} rounds.
         </h3>
 
         <div class="text-xs-center m-y-1">
