@@ -33,7 +33,6 @@
         background-color: white;
         width: 50px;
         height: 80px;
-        padding: 15px;
         margin: 5px auto;
         border: 1px solid transparent;
         text-align: center;
