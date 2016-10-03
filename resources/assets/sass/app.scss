@@ -1,6 +1,10 @@
 // Bootstrap
 @import "node_modules/bootstrap/scss/bootstrap";
 
+*:focus {
+    outline: none !important;
+}
+
 .Players {
     margin: 2em 0;
 }
