@@ -11,9 +11,6 @@
     <nav class="navbar navbar-light bg-faded">
         <div class="container">
             <a class="navbar-brand" href="/">War Machine</a>
-            <ul class="nav navbar-nav">
-            	{{--<li class="nav-item"><a href="">Item 1</a></li>--}}
-            </ul>
         </div>
     </nav>
 </header>
