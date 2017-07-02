@@ -5,11 +5,14 @@
             <small class="pull-right">Click the progress bar to {{ pause ? 'resume' : 'pause' }}.</small>
         </h4>
 
-        <progress class="Round__progress progress" value="{{ current }}" max="{{ total }}" @click="playPause()"></progress>
+        <progress class="Round__progress progress"
+            :value="current" :max="total"
+            @click="playPause()"
+        ></progress>
 
-        <div class="Round row" v-for="round in played | tail 6" :class='{ War: round.length > 2 }'>
+        <div class="Round row" v-for="round in visibleRounds" :class='{ War: round.length > 2 }'>
             <div class="Round__number">{{ round.number }}</div>
-            <div class="Round__winner Round__winner--{{ round | tail 2 | winner }}"></div>
+            <div class="Round__winner" :class="winnerClass(round)"></div>
             <div class="col-xs-6 col-sm-6 text-center text-xs-center" v-for="card in round">
                 <card
                     :suit="card.suit"
@@ -19,9 +22,10 @@
         </div>
 
         <progress class="Round__progress progress"
-            value="{{ current }}" max="{{ total }}"
+            :value="current" :max="total"
             v-show="played.length > 6"
-            @click="playPause()"></progress>
+            @click="playPause()"
+        ></progress>
 
     </div>
 </template>
@@ -45,6 +49,9 @@ import Card from './card.vue';
         },
 
         computed: {
+            visibleRounds() {
+                return _.takeRight(this.played, 6);
+            },
             played() {
                 return this.rounds.slice(0, this.current + 1);
             },
@@ -75,10 +82,19 @@ import Card from './card.vue';
                 if (! this.pause) {
                     this.queueRound(); // resume!
                 }
+            },
+            winner(battle) {
+                if (battle[0].value > battle[1].value) {
+                    return '1';
+                }
+                return '2';
+            },
+            winnerClass(round) {
+                return `Round__winner--${this.winner(round)}`;
             }
         },
 
-        ready() {
+        mounted() {
             _.each(this.rounds, (round, index) => {
                 round.number = index + 1;
                 return round;
@@ -93,12 +109,7 @@ import Card from './card.vue';
         },
 
         filters: {
-            winner(battle) {
-                if (battle[0].value > battle[1].value) {
-                    return '1';
-                }
-                return '2';
-            }
+
         }
     }
 </script>

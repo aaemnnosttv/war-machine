@@ -1,13 +1,16 @@
 import Vue from 'vue';
 import HTTP from 'vue-resource';
+import { event }  from './util/events';
 import LastResults from './components/last-results.vue';
 import PlayerInfo from './components/player-info.vue';
 import Replay from './components/replay.vue';
 import _ from 'lodash';
 
-Vue.config.debug = true;
 Vue.use(HTTP);
 Vue.http.headers.common['X-CSRF-TOKEN'] = App.csrfToken;
+
+// Initialize event bus
+event.init();
 
 /**
  * Register a global `tail` filter, similar to the bash function.
@@ -18,7 +21,7 @@ Vue.filter('tail', (items, number) => _.takeRight(items, number));
  */
 new Vue({
 
-  el: 'body',
+  el: '#app',
 
   components: {
     LastResults,
@@ -68,21 +71,23 @@ new Vue({
         });
     },
     stopReplay() {
-        this.$broadcast('stopReplay');
+        event.emit('stopReplay');
     }
   },
 
-  events: {
-    newGame() {
-        this.play();
-    },
-    showGame(game) {
-        this.$set('results', []);
+  mounted() {
+      event.on({
+          newGame() {
+              this.play();
+          },
+          showGame(game) {
+              this.$set('results', []);
 
-        this.$http.get('api/game/' + game.hash).then(response => {
-            this.results = response.json();
-        });
-    }
+              this.$http.get('api/game/' + game.hash).then(response => {
+                  this.results = response.json();
+              });
+          }
+      })
   }
 
 });

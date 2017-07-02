@@ -15,7 +15,7 @@
     </nav>
 </header>
 
-<main>
+<main id="app">
     <div class="container p-y">
         @yield('content')
     </div>

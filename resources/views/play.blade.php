@@ -4,8 +4,8 @@
     <h1 class="m-y-1">Let's have a War...</h1>
 
     <div class="Players row">
-        <player-info v-for="player in players"
-            :number="$index + 1"
+        <player-info v-for="(player, index) in players"
+            :number="index + 1"
             :player.sync="player"
         ></player-info>
     </div>
