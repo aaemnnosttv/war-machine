@@ -5,6 +5,7 @@
 
     <div class="Players row">
         <player-info v-for="(player, index) in players"
+            :key="index"
             :number="index + 1"
             :player.sync="player"
         ></player-info>
