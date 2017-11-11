@@ -51,6 +51,8 @@ import Card from './card.vue';
             rounds() {
                 clearTimeout(this.timer);
                 this.current = 0;
+                this.pause = false;
+                this.queueRound();
             }
         },
 
