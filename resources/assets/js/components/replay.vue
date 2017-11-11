@@ -5,15 +5,19 @@
             <small class="pull-right">Click the progress bar to {{ pause ? 'resume' : 'pause' }}.</small>
         </h4>
 
-        <progress class="Round__progress progress"
-            :value="current" :max="total"
-            @click="playPause()"
-        ></progress>
+        <div class="Round__progress progress" @click="playPause()">
+          <div class="progress-bar" role="progressbar"
+            :aria-valuenow="current"
+            aria-valuemin="0"
+            :aria-valuemax="total"
+            :style="{ width: current + '%' }"
+          ></div>
+        </div>
 
         <div class="Round row" v-for="round in visibleRounds" :class='{ War: round.length > 2 }'>
             <div class="Round__number">{{ round.number }}</div>
             <div class="Round__winner" :class="winnerClass(round)"></div>
-            <div class="col-xs-6 col-sm-6 text-center text-xs-center" v-for="card in round">
+            <div class="col-xs-6 col-sm-6 text-center text-center" v-for="card in round">
                 <card
                     :suit="card.suit"
                     :face="card.face"
@@ -21,11 +25,14 @@
             </div>
         </div>
 
-        <progress class="Round__progress progress"
-            :value="current" :max="total"
-            v-show="played.length > 6"
-            @click="playPause()"
-        ></progress>
+        <div class="Round__progress progress" @click="playPause()" v-show="played.length > 6">
+          <div class="progress-bar" role="progressbar"
+            :aria-valuenow="current"
+            aria-valuemin="0"
+            :aria-valuemax="total"
+            :style="{ width: current + '%' }"
+          ></div>
+        </div>
 
     </div>
 </template>
@@ -130,8 +137,8 @@ import Card from './card.vue';
     .Round__progress {
         cursor: pointer;
     }
-    .Round__progress::-webkit-progress-value {
-        transition: all .2s linear;
+    .Round__progress .progress-bar {
+        transition: all .3s linear;
     }
     .Round__winner::before {
         position: absolute;

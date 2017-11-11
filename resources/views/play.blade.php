@@ -22,11 +22,10 @@
             <li>The game ends when one player no longer has any cards to play.</li>
         </ul>
 
-        <hr class="m-y-2">
+        <hr class="my-5">
 
-        <p class="lead">Ready?</p>
-        <p class="text-xs-center">
-            <button class="PlayButton btn btn-lg btn-outline-success" @click="play">PLAY!</button>
+        <p class="text-center">
+            <button class="PlayButton btn btn-lg btn-outline-primary" @click="play">PLAY!</button>
         </p>
     </div>
 
