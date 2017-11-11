@@ -10,14 +10,14 @@
 </template>
 
 <script>
-import { event }  from '../util/events';
+import Events  from '../util/events';
 
     export default {
         props: ['player','number','wins'],
 
         methods: {
             showGame(game) {
-                event.emit('showGame', game);
+                Events.$emit('showGame', game);
             }
         },
 

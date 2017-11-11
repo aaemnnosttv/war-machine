@@ -19,17 +19,17 @@
 </template>
 
 <script>
-import { event }  from '../util/events';
+import Events from '../util/events';
 
     export default {
         props: ['results'],
 
         methods: {
             newGame() {
-                event.emit('newGame');
+                Events.$emit('newGame');
             },
             showGame(game) {
-                event.emit('showGame', game);
+                Events.$emit('showGame', this.results);
             }
         }
     }
