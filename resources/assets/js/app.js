@@ -49,7 +49,13 @@ new Vue({
      * and its length is used for conditional rendering of the replay.
      */
     resultsCopy() {
-        return _.slice(this.results);
+        return _(this.results)
+            .slice()
+            .map((round, index) => {
+                round.number = index + 1;
+                return round;
+            })
+            .value()
     }
   },
 

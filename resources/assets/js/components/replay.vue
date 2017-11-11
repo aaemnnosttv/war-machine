@@ -102,10 +102,6 @@ import Card from './card.vue';
         },
 
         mounted() {
-            _.each(this.rounds, (round, index) => {
-                round.number = index + 1;
-                return round;
-            });
             this.queueRound();
         }
     }
