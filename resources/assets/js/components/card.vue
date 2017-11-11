@@ -1,6 +1,6 @@
 <template>
-    <div class="WarCard WarCard--{{ suit }} WarCard--{{ color }} WarCard--{{ face }}">
-        <div class="WarCard__symbol">{{{ symbol }}}</div>
+    <div :class="classes">
+        <div class="WarCard__symbol" v-html="symbol"></div>
         <div class="WarCard__face" v-if="face != 'A'">{{ face }}</div>
     </div>
 </template>
@@ -20,6 +20,14 @@
                     hearts: '&hearts;',
                     spades: '&spades;'
                 }[this.suit];
+            },
+            classes() {
+                return [
+                    'WarCard',
+                    `WarCard--${this.suit}`,
+                    `WarCard--${this.color}`,
+                    `WarCard--${this.face}`,
+                ];
             }
         }
     }

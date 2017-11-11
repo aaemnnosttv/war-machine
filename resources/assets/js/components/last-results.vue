@@ -7,28 +7,27 @@
             {{ results.winner }} won after {{ results.rounds }} rounds.
         </h3>
 
-        <div class="text-xs-center m-y-1">
-            <button @click.prevent="showGame(results)" class="btn btn-sm btn-outline-secondary">Watch the replay</button>
-        </div>
-
-        <div class="text-xs-center">
-            <button class="PlayButton btn btn-lg btn-outline-success" @click="newGame">PLAY!</button>
-            <small class="m-t-1 d-block">Click the <i class="fa fa-gg"></i> to watch any replay.</small>
+        <div class="text-center my-1">
+            <button @click.prevent="showGame" class="btn btn-sm btn-outline-secondary">Watch the replay</button>
+            <button class="PlayButton btn btn-outline-primary" @click="newGame">Play Again</button>
+            <small class="mt-1 d-block">Click the <i class="fa fa-gg"></i> to watch any replay.</small>
         </div>
     </div>
 </template>
 
 <script>
-    export default {
-        props: ['results'],
+import Events from '../util/events';
 
-        methods: {
-            newGame() {
-                this.$dispatch('newGame');
-            },
-            showGame(game) {
-                this.$dispatch('showGame', game);
-            }
+export default {
+    props: ['results'],
+
+    methods: {
+        newGame() {
+            Events.$emit('newGame');
+        },
+        showGame() {
+            Events.$emit('showGame', this.results);
         }
     }
+}
 </script>

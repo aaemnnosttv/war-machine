@@ -5,12 +5,19 @@
             <small class="pull-right">Click the progress bar to {{ pause ? 'resume' : 'pause' }}.</small>
         </h4>
 
-        <progress class="Round__progress progress" value="{{ current }}" max="{{ total }}" @click="playPause()"></progress>
+        <div class="Round__progress progress" @click="playPause()">
+          <div class="progress-bar" role="progressbar"
+            :aria-valuenow="current"
+            aria-valuemin="0"
+            :aria-valuemax="total"
+            :style="{ width: current + '%' }"
+          ></div>
+        </div>
 
-        <div class="Round row" v-for="round in played | tail 6" :class='{ War: round.length > 2 }'>
+        <div class="Round row" v-for="round in visibleRounds" :class='{ War: round.length > 2 }'>
             <div class="Round__number">{{ round.number }}</div>
-            <div class="Round__winner Round__winner--{{ round | tail 2 | winner }}"></div>
-            <div class="col-xs-6 col-sm-6 text-center text-xs-center" v-for="card in round">
+            <div class="Round__winner" :class="winnerClass(round)"></div>
+            <div class="col-xs-6 col-sm-6 text-center text-center" v-for="card in round">
                 <card
                     :suit="card.suit"
                     :face="card.face"
@@ -18,10 +25,14 @@
             </div>
         </div>
 
-        <progress class="Round__progress progress"
-            value="{{ current }}" max="{{ total }}"
-            v-show="played.length > 6"
-            @click="playPause()"></progress>
+        <div class="Round__progress progress" @click="playPause()" v-show="played.length > 6">
+          <div class="progress-bar" role="progressbar"
+            :aria-valuenow="current"
+            aria-valuemin="0"
+            :aria-valuemax="total"
+            :style="{ width: current + '%' }"
+          ></div>
+        </div>
 
     </div>
 </template>
@@ -36,7 +47,14 @@ import Card from './card.vue';
             Card
         },
 
-        data: function () {
+        watch: {
+            rounds() {
+                clearTimeout(this.timer);
+                this.current = 0;
+            }
+        },
+
+        data() {
             return {
                 timer: {},
                 current: 0,
@@ -45,6 +63,9 @@ import Card from './card.vue';
         },
 
         computed: {
+            visibleRounds() {
+                return _.takeRight(this.played, 6);
+            },
             played() {
                 return this.rounds.slice(0, this.current + 1);
             },
@@ -75,30 +96,20 @@ import Card from './card.vue';
                 if (! this.pause) {
                     this.queueRound(); // resume!
                 }
-            }
-        },
-
-        ready() {
-            _.each(this.rounds, (round, index) => {
-                round.number = index + 1;
-                return round;
-            });
-            this.queueRound();
-        },
-
-        events: {
-            stopReplay() {
-                this.pause = true;
-            }
-        },
-
-        filters: {
+            },
             winner(battle) {
                 if (battle[0].value > battle[1].value) {
                     return '1';
                 }
                 return '2';
+            },
+            winnerClass(round) {
+                return `Round__winner--${this.winner(round)}`;
             }
+        },
+
+        mounted() {
+            this.queueRound();
         }
     }
 </script>
@@ -126,8 +137,8 @@ import Card from './card.vue';
     .Round__progress {
         cursor: pointer;
     }
-    .Round__progress::-webkit-progress-value {
-        transition: all .2s linear;
+    .Round__progress .progress-bar {
+        transition: all .3s linear;
     }
     .Round__winner::before {
         position: absolute;

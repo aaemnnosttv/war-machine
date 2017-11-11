@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import HTTP from 'vue-resource';
+import Events  from './util/events';
 import LastResults from './components/last-results.vue';
 import PlayerInfo from './components/player-info.vue';
 import Replay from './components/replay.vue';
 import _ from 'lodash';
 
-Vue.config.debug = true;
 Vue.use(HTTP);
 Vue.http.headers.common['X-CSRF-TOKEN'] = App.csrfToken;
 
@@ -18,7 +18,7 @@ Vue.filter('tail', (items, number) => _.takeRight(items, number));
  */
 new Vue({
 
-  el: 'body',
+  el: '#app',
 
   components: {
     LastResults,
@@ -49,7 +49,13 @@ new Vue({
      * and its length is used for conditional rendering of the replay.
      */
     resultsCopy() {
-        return _.slice(this.results);
+        return _(this.results)
+            .slice()
+            .map((round, index) => {
+                round.number = index + 1;
+                return round;
+            })
+            .value()
     }
   },
 
@@ -62,27 +68,24 @@ new Vue({
         };
 
         this.$http.post('api/game/play', postData).then(response => {
-            let results = response.json();
-            this.lastPlayed = results;
-            this.players[results.winner].wins.push(results);
+            response.json().then(results => {
+                this.lastPlayed = results;
+                this.players[ results.winner ].wins.push(results);
+            });
         });
     },
     stopReplay() {
-        this.$broadcast('stopReplay');
+        Events.$emit('stopReplay');
     }
   },
 
-  events: {
-    newGame() {
-        this.play();
-    },
-    showGame(game) {
-        this.$set('results', []);
-
-        this.$http.get('api/game/' + game.hash).then(response => {
-            this.results = response.json();
-        });
-    }
+  mounted() {
+      Events.$on('newGame', this.play);
+      Events.$on('showGame', game => {
+          this.$http.get('api/game/' + game.hash).then(response => {
+              response.json().then(results => this.$set(this, 'results', results));
+          });
+      });
   }
 
 });
