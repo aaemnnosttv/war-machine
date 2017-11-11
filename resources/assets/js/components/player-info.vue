@@ -12,8 +12,8 @@
 <script>
 import Events  from '../util/events';
 
-    export default {
-        props: ['player','number','wins'],
+export default {
+    props: ['player','number','wins'],
 
         methods: {
             showGame(game) {
@@ -21,14 +21,14 @@ import Events  from '../util/events';
             }
         },
 
-        computed: {
-            classes() {
-                return [
-                    'PlayerInfo',
-                    `Player_${this.number}`,
-                    'col-sm-6'
-                ];
-            }
+    computed: {
+        classes() {
+            return [
+                'PlayerInfo',
+                `Player_${this.number}`,
+                'col-sm-6'
+            ];
         }
     }
+}
 </script>

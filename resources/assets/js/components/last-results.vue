@@ -21,16 +21,16 @@
 <script>
 import Events from '../util/events';
 
-    export default {
-        props: ['results'],
+export default {
+    props: ['results'],
 
-        methods: {
-            newGame() {
-                Events.$emit('newGame');
-            },
-            showGame(game) {
-                Events.$emit('showGame', this.results);
-            }
+    methods: {
+        newGame() {
+            Events.$emit('newGame');
+        },
+        showGame() {
+            Events.$emit('showGame', this.results);
         }
     }
+}
 </script>
