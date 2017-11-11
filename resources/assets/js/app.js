@@ -68,9 +68,10 @@ new Vue({
         };
 
         this.$http.post('api/game/play', postData).then(response => {
-            let results = response.json();
-            this.lastPlayed = results;
-            this.players[results.winner].wins.push(results);
+            response.json().then(results => {
+                this.lastPlayed = results;
+                this.players[ results.winner ].wins.push(results);
+            });
         });
     },
     stopReplay() {
