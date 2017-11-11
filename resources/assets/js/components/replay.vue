@@ -107,16 +107,6 @@ import Card from './card.vue';
                 return round;
             });
             this.queueRound();
-        },
-
-        events: {
-            stopReplay() {
-                this.pause = true;
-            }
-        },
-
-        filters: {
-
         }
     }
 </script>
