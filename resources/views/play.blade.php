@@ -1,7 +1,6 @@
 @extends('layouts.master')
 
 @section('content')
-    <h1 class="m-y-1">Let's have a War...</h1>
 
     <div class="Players row">
         <player-info v-for="(player, index) in players"
@@ -12,7 +11,7 @@
     </div>
 
     <div class="rules jumbotron info-background" v-show="! lastResults">
-        <h3 class="display-3">Game Rules</h3>
+        <h3>Game Rules</h3>
         <ul>
             <li>Each player is dealt half of a shuffled deck.</li>
             <li>Both players play one card at a time to do battle, high card wins. (Ace high)</li>

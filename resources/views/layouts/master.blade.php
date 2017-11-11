@@ -23,7 +23,7 @@
 
 <footer>
     <div class="container text-muted">
-        <div class="built-with text-xs-center">
+        <div class="built-with text-center">
             <ul class="list-inline">
                 <li class="list-inline-item"><a href="https://laravel.com" target="_blank">Laravel</a></li>
                 <li class="list-inline-item"><a href="https://vuejs.org/" target="_blank">Vue</a></li>
