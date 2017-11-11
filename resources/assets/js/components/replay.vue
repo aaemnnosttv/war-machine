@@ -40,7 +40,7 @@ import Card from './card.vue';
             Card
         },
 
-        data: function () {
+        data() {
             return {
                 timer: {},
                 current: 0,
