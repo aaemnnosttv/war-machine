@@ -40,6 +40,13 @@ import Card from './card.vue';
             Card
         },
 
+        watch: {
+            rounds() {
+                clearTimeout(this.timer);
+                this.current = 0;
+            }
+        },
+
         data() {
             return {
                 timer: {},
