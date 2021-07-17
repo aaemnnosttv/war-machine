@@ -100,7 +100,21 @@ import Card from './card.vue';
                 }
             },
             winner(battle) {
-                if (battle[0].value > battle[1].value) {
+                // If there are an odd number of rounds,
+                // it can only be the last battle,
+                // and one player is out of cards.
+                if (battle.length % 2 !== 0) {
+                    // No way to know who won by battle alone here
+                    // because battles are just lists of cards played.
+                    return;
+                }
+                // Most rounds only have a single battle
+                // which would be a list of 2 cards played.
+                // However, if there is a war, there will be
+                // additional battles, so we must always base
+                // this logic on the _last_ battle.
+                const [p1Card, p2Card] = battle.slice(-2);
+                if (p1Card.value > p2Card.value) {
                     return '1';
                 }
                 return '2';
