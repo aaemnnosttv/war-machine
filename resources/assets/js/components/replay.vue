@@ -14,10 +14,19 @@
           ></div>
         </div>
 
-        <div class="Round row" v-for="round in visibleRounds" :class='{ War: round.length > 2 }'>
+        <div
+            class="Round row"
+            :class='{ War: round.length > 2 }'
+            v-for="round in visibleRounds"
+            :key="round.number"
+        >
             <div class="Round__number">{{ round.number }}</div>
             <div class="Round__winner" :class="winnerClass(round)"></div>
-            <div class="col-xs-6 col-sm-6 text-center text-center" v-for="card in round">
+            <div
+                class="col-xs-6 col-sm-6 text-center text-center"
+                v-for="card in round"
+                :key="card.suit + ':' + card.face"
+            >
                 <card
                     :suit="card.suit"
                     :face="card.face"
